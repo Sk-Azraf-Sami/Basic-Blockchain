@@ -16,6 +16,7 @@ class Block {
             this.nonce++;
             this.hash=this.calculateHash();
         }
+        console.log("Mine Done: ",this.hash); 
     }
 
     calculateHash(){
@@ -30,6 +31,7 @@ class Block {
 class BlockChain {
     constructor(){
         this.chain = [this.generateGenesisBlock()]; // initialize array with first element 
+        this.difficulty = 5; //declare by default difficulty 
     }
 
     generateGenesisBlock(){ //create first block 
@@ -42,7 +44,8 @@ class BlockChain {
     
     addBlock(newBlock){
         newBlock.previousHash=this.getHashofLastBlock().hash;
-        newBlock.hash=newBlock.calculateHash();
+        //newBlock.hash=newBlock.calculateHash();
+        newBlock.mineBlock(this.difficulty); 
         this.chain.push(newBlock);
     }
 
@@ -63,13 +66,16 @@ class BlockChain {
 }
 
 const josscoin = new BlockChain();
+
 const block = new Block("2023-02-28",{amount: 5});
-
 josscoin.addBlock(block);
-console.log(josscoin.checkValidationofBlock()); 
 
-console.log("After Invalid Change of Data");
-josscoin.chain[1].data="HACKED";
-console.log(josscoin.checkValidationofBlock());
+const block2 = new Block("2023-02-22",{amount: 10});
+josscoin.addBlock(block2);
+console.log(josscoin); 
+
+//console.log("After Invalid Change of Data");
+//josscoin.chain[1].data="HACKED";
+//console.log(josscoin.checkValidationofBlock());
 
 //console.log(Array(6).join("0"));
