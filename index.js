@@ -16,7 +16,7 @@ class Block {
             this.nonce++;
             this.hash=this.calculateHash();
         }
-        console.log("Mine Done: ",this.hash); 
+        //console.log("Mine Done: ",this.hash); 
     }
 
     calculateHash(){
@@ -41,6 +41,7 @@ class BlockChain {
     constructor(){
         this.chain = [this.generateGenesisBlock()]; // initialize array with first element 
         this.difficulty = 5; //declare by default difficulty 
+        this.pendingTransactions = []; 
     }
 
     generateGenesisBlock(){ //create first block 
@@ -50,13 +51,24 @@ class BlockChain {
     getHashofLastBlock(){
         return this.chain[this.chain.length-1]; 
     }
+
+    createTransaction(transactionObj){
+        this.pendingTransactions.push(transactionObj); 
+    }
+
+    minePendingTransaction(){
+        let block = new Block(Date.now(),this.pendingTransactions);
+        block.mineBlock(this.difficulty);
+        this.chain.push(block); 
+        this.pendingTransactions = [];
+    }
     
-    addBlock(newBlock){
+    /*addBlock(newBlock){
         newBlock.previousHash=this.getHashofLastBlock().hash;
         //newBlock.hash=newBlock.calculateHash();
         newBlock.mineBlock(this.difficulty); 
         this.chain.push(newBlock);
-    }
+    }*/
 
     checkValidationofBlock(){
         for(let i=1;i<this.chain.length;i++){
@@ -76,11 +88,14 @@ class BlockChain {
 
 const josscoin = new BlockChain();
 
-const block = new Block("2023-02-28",{amount: 5});
+/*const block = new Block("2023-02-28",{amount: 5});
 josscoin.addBlock(block);
 
 const block2 = new Block("2023-02-22",{amount: 10});
-josscoin.addBlock(block2);
+josscoin.addBlock(block2);*/
+josscoin.createTransaction(new Transaction("sami","biva",100));
+josscoin.createTransaction(new Transaction("azraf","afifa",50));
+josscoin.minePendingTransaction();
 console.log(josscoin); 
 
 //console.log("After Invalid Change of Data");
