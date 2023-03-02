@@ -84,6 +84,23 @@ class BlockChain {
         }
         return true; 
     }
+    //In one chain, there are many blocks and in one block there are many transactions 
+    getBalanceOfAddress(address){
+        let balance = 0;
+        for(const block of this.chain){
+            for(const transaction of block.transactions){
+               
+                if(transaction.fromAddress === address){
+                    balance = balance - transaction.amount;  
+                }
+
+                if(transaction.toAddress === address){
+                    balance = transaction.amount + balance; 
+                }
+            }
+        }
+        return balance; 
+    }
 }
 
 const josscoin = new BlockChain();
@@ -93,10 +110,12 @@ josscoin.addBlock(block);
 
 const block2 = new Block("2023-02-22",{amount: 10});
 josscoin.addBlock(block2);*/
-josscoin.createTransaction(new Transaction("sami","biva",100));
-josscoin.createTransaction(new Transaction("azraf","afifa",50));
+josscoin.createTransaction(new Transaction("sami","biva",100)); //sami=> -100+70=-30
+josscoin.createTransaction(new Transaction("biva","sami",70)); //biva=> 100 -70 = 30 
 josscoin.minePendingTransaction();
 console.log(josscoin); 
+console.log(josscoin.getBalanceOfAddress("sami")); 
+console.log(josscoin.getBalanceOfAddress("biva")); 
 
 //console.log("After Invalid Change of Data");
 //josscoin.chain[1].data="HACKED";
