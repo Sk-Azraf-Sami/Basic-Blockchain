@@ -32,7 +32,7 @@ class Transaction{
     constructor(fromAddress,toAddress,amount){
         this.fromAddress=fromAddress;
         this.toAddress=toAddress;
-        this.amount=amount; 
+        this.amount=amount;  
     }
 }
 
@@ -42,6 +42,7 @@ class BlockChain {
         this.chain = [this.generateGenesisBlock()]; // initialize array with first element 
         this.difficulty = 5; //declare by default difficulty 
         this.pendingTransactions = []; 
+        this.miningReward=10; 
     }
 
     generateGenesisBlock(){ //create first block 
@@ -56,11 +57,11 @@ class BlockChain {
         this.pendingTransactions.push(transactionObj); 
     }
 
-    minePendingTransaction(){
+    minePendingTransaction(minerAddress){
         let block = new Block(Date.now(),this.pendingTransactions);
         block.mineBlock(this.difficulty);
         this.chain.push(block); 
-        this.pendingTransactions = [];
+        this.pendingTransactions = [new Transaction(null,minerAddress,this.miningReward)];
     }
     
     /*addBlock(newBlock){
@@ -112,10 +113,14 @@ const block2 = new Block("2023-02-22",{amount: 10});
 josscoin.addBlock(block2);*/
 josscoin.createTransaction(new Transaction("sami","biva",100)); //sami=> -100+70=-30
 josscoin.createTransaction(new Transaction("biva","sami",70)); //biva=> 100 -70 = 30 
-josscoin.minePendingTransaction();
+josscoin.minePendingTransaction("azraf");
 console.log(josscoin); 
+console.log(josscoin.getBalanceOfAddress("azraf")); 
 console.log(josscoin.getBalanceOfAddress("sami")); 
 console.log(josscoin.getBalanceOfAddress("biva")); 
+
+josscoin.minePendingTransaction("azraf");
+console.log(josscoin.getBalanceOfAddress("azraf"));
 
 //console.log("After Invalid Change of Data");
 //josscoin.chain[1].data="HACKED";
