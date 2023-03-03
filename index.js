@@ -97,6 +97,12 @@ class BlockChain {
         if(!transactionObj.isValid()){
             //throw new Error("Transaction is not valid!");
         }
+        if(transactionObj.amount < 0){
+            throw new Error("Invalid Transaction Amount!"); 
+        }
+        if(transactionObj.amount>this.getBalanceOfAddress(this.fromAddress)){
+            throw new Error("Not have enough balance!"); 
+        }
 
         this.pendingTransactions.push(transactionObj); 
     }
