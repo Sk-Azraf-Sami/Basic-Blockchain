@@ -90,7 +90,14 @@ class BlockChain {
         return this.chain[this.chain.length-1]; 
     }
 
-    createTransaction(transactionObj){
+   addTransaction(transactionObj){
+        if(transactionObj.fromAddress===null || transactionObj.toAddress===null){
+            throw new Error("Can't Process Transaction!");
+        }
+        if(transactionObj.isValid()===false){
+            throw new Error("Transaction is not valid!");
+        }
+        
         this.pendingTransactions.push(transactionObj); 
     }
 
@@ -119,6 +126,9 @@ class BlockChain {
             if(currentBlock.previousHash !== previousBlock.hash){
                 return false; 
             }
+            if(currentBlock.isValidTransaction()===false){
+                return false;
+            }
         }
         return true; 
     }
@@ -139,6 +149,7 @@ class BlockChain {
         }
         return balance; 
     }
+
 }
 
 const josscoin = new BlockChain();
