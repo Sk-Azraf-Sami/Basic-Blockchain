@@ -94,7 +94,7 @@ class BlockChain {
         if(!transactionObj.fromAddress || !transactionObj.toAddress){
             throw new Error("Can't Process Transaction!");
         }
-        if(!transactionObj.isValid()){
+        if(!transactionObj.isValid()){ //! Get Error
             //throw new Error("Transaction is not valid!");
         }
         if(transactionObj.amount < 0){

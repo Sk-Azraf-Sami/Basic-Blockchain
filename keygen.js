@@ -9,7 +9,5 @@ console.log("Private key: ",privateKey);
 console.log("Public Key: ",publicKey); 
 
 module.exports = {
-    key,
-    privateKey,
-    publicKey
+   ec
 }; 
