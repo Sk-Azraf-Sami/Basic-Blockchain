@@ -28,6 +28,15 @@ class Block {
              this.previousHash + 
              this.nonce).toString();
     }
+
+    isValidTransaction(){
+        for(const tx of this.transactions){
+            if(tx.isValid === false){
+                return false; 
+            }
+        }
+        return true; 
+    }
 }
 
 //create Transaction 
