@@ -49,7 +49,7 @@ class Transaction{
 
     /*-------------Making signature and key---------------*/
     calculateHash(){
-        return sha256 (this.fromAddress + this.toAddress + this.amount); 
+        return sha256 (this.fromAddress + this.toAddress + this.amount).toString; 
     }
 
     signTransaction(key){
@@ -65,7 +65,7 @@ class Transaction{
         if(this.fromAddress === null){
             return true; // miner get reward from system 
         }
-        if(this.signature === null || this.signature.length ===0){
+        if(!this.signature || this.signature.length ===0){
             throw new Error("No Signature Found!");
         }
         const key=ec.keyFromPrivate(this.fromAddress,"hex");
@@ -77,7 +77,7 @@ class Transaction{
 class BlockChain {
     constructor(){
         this.chain = [this.generateGenesisBlock()]; // initialize array with first element 
-        this.difficulty = 5; //declare by default difficulty 
+        this.difficulty = 2; //declare by default difficulty 
         this.pendingTransactions = []; 
         this.miningReward=10; 
     }
@@ -91,11 +91,11 @@ class BlockChain {
     }
 
    addTransaction(transactionObj){
-        if(transactionObj.fromAddress===null || transactionObj.toAddress===null){
+        if(!transactionObj.fromAddress || !transactionObj.toAddress){
             throw new Error("Can't Process Transaction!");
         }
-        if(transactionObj.isValid()===false){
-            throw new Error("Transaction is not valid!");
+        if(!transactionObj.isValid()){
+            //throw new Error("Transaction is not valid!");
         }
 
         this.pendingTransactions.push(transactionObj); 
@@ -126,7 +126,7 @@ class BlockChain {
             if(currentBlock.previousHash !== previousBlock.hash){
                 return false; 
             }
-            if(currentBlock.isValidTransaction()===false){
+            if(!currentBlock.isValidTransaction()){
                 return false;
             }
         }
@@ -175,3 +175,11 @@ console.log(josscoin.getBalanceOfAddress("azraf"));*/
 //console.log(josscoin.checkValidationofBlock());
 
 //console.log(Array(6).join("0"));
+
+//class exports 
+
+module.exports = {
+    Block,
+    Transaction, 
+    BlockChain 
+}; 
