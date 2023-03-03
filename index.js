@@ -97,7 +97,7 @@ class BlockChain {
         if(transactionObj.isValid()===false){
             throw new Error("Transaction is not valid!");
         }
-        
+
         this.pendingTransactions.push(transactionObj); 
     }
 
@@ -152,13 +152,13 @@ class BlockChain {
 
 }
 
-const josscoin = new BlockChain();
+/*const josscoin = new BlockChain();
 
-/*const block = new Block("2023-02-28",{amount: 5});
+const block = new Block("2023-02-28",{amount: 5});
 josscoin.addBlock(block);
 
 const block2 = new Block("2023-02-22",{amount: 10});
-josscoin.addBlock(block2);*/
+josscoin.addBlock(block2);
 josscoin.createTransaction(new Transaction("sami","biva",100)); //sami=> -100+70=-30
 josscoin.createTransaction(new Transaction("biva","sami",70)); //biva=> 100 -70 = 30 
 josscoin.minePendingTransaction("azraf");
@@ -168,7 +168,7 @@ console.log(josscoin.getBalanceOfAddress("sami"));
 console.log(josscoin.getBalanceOfAddress("biva")); 
 
 josscoin.minePendingTransaction("azraf");
-console.log(josscoin.getBalanceOfAddress("azraf"));
+console.log(josscoin.getBalanceOfAddress("azraf"));*/
 
 //console.log("After Invalid Change of Data");
 //josscoin.chain[1].data="HACKED";
